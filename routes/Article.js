@@ -5,7 +5,7 @@ const articleCtrl = require('../controller/Article')
 const auth = require('../middleware/auth')
 
 router.post('/',auth,multer,articleCtrl.postArticle);
-router.get('/',auth,articleCtrl.getArticles)
+router.get('/',articleCtrl.getArticles)
 router.get('/:id', auth,articleCtrl.getArticle)
 router.patch('/:id',auth,multer, articleCtrl.updateArticle)
 router.delete('/:id',auth, articleCtrl.deleteArticle)
