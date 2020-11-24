@@ -10,9 +10,10 @@ exports.postArticle =async(req,res,next) =>{
                     content:req.body.content,
                     owner:req.user._id
                 })
+                try{
                 const item =  await article.save();
 
-        		try{
+        		
         				res.send({
         					message: 'article saved successful',
         					data: item
