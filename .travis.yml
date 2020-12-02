@@ -1,3 +1,7 @@
+language: node_js
+node_js:
+  - 'stable'
+install: npm install
 env:
   - DATABASE_TEST=mongodb+srv://edgar:edgar@cluster0.jpzrn.mongodb.net/personalPortfolioTestWithMocha?retryWrites=true&w=majority
 node_js:
@@ -7,8 +11,6 @@ services:
 cache:
   npm: false
 script:
-  - npm ci
   - npm test
-  - npm run coverage
 after_success:
   - npm run coveralls
