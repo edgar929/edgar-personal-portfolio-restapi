@@ -8,17 +8,30 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
+    "mocha": "^8.2.1",
     "mongoose": "^5.10.15",
     "multer": "^1.4.2",
     "nodemon": "^2.0.6",
     "sharp": "^0.26.3",
     "validator": "^13.1.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.1.0",
+    "jest": "^26.6.3",
+    "mocha": "^8.2.1",
+    "morgan": "^1.10.0",
+    "nyc": "^15.1.0",
+    "supertest": "^6.0.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "test": "nyc mocha --timeout 50000",
+    "start": "SET process.env.NODE_ENV=dev node server.js",
     "server": "nodemon server.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "",
   "license": "ISC",

@@ -6,36 +6,40 @@ exports.postArticle =async(req,res,next) =>{
                 const article = new Article({ 
                     title:req.body.title,
                     summary:req.body.summary,
-                    picture:'uploads/'+req.file.filename,
-                    content:req.body.content,
-                    owner:req.user._id
+                    picture:req.file.filename,
+                    content:req.body.content
+                    // owner:req.user._id
                 })
-                try{
-                const item =  await article.save();
-
-        		
-        				res.send({
-        					message: 'article saved successful',
-        					data: item
-        				})
-                }catch(err){
-                    console.log(err);
-                    res.status(500).json({error:err});
-                }
+                 await article.save().then((item)=>{
+                    res.status(200).send({
+                        message: 'article saved successful',
+                        data: item
+                    })
+                })
+                .catch((err)=>{
+                    res.status(500).send({
+                        message:err.message
+                    })
+                });
+       
 }
 
 exports.getArticles=async(req,res,next)=>{
-    const articles = await Article.find({}).then((article)=>{
-        res.send(article)
-    })
+    try {
+        const articles = await Article.find({})
+            res.send(articles)
+        
+    } catch (error) {
+        res.send(error)
+    }
 }
 exports.getArticle=async(req,res,next)=>{
     const _id = req.params.id
     try {
-        const article = await Article.findOne({_id,owner:req.user._id})
-        
+        // const article = await Article.findOne({_id,owner:req.user._id})
+        const article = await Article.findOne({_id})
         if(!article){
-            res.status(404).send('no article found')
+            res.send({message:'no article found'})
         }
         res.send({
             message: 'operation successful',
@@ -44,17 +48,18 @@ exports.getArticle=async(req,res,next)=>{
             }
         })
     } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).send({message:error.message});
     }
 }
 exports.deleteArticle = async(req,res)=>{
     try {
-        const article =await Article.findOne({_id:req.params.id, owner:req.user._id})
-       if(!article){
+        // const article =await Article.findOne({_id:req.params.id, owner:req.user._id})
+        const article =await Article.findOne({_id:req.params.id})
+        if(!article){
            res.send('blog not found')
        }
        res.send({
-           message:"deleted successful",
+           message:'deleted successful',
         article:article})
     } catch (error) {
         res.status(404).send(error.message)
@@ -66,7 +71,6 @@ exports.updateArticle = async(req,res)=>{
       _id:req.params.id,
       title: req.body.title,
       summary:req.body.summary,
-      picture:req.file.filename,
       content:req.body.content
   });
   Article.updateOne({_id:req.params.id},article).then(()=>{
@@ -74,7 +78,7 @@ exports.updateArticle = async(req,res)=>{
            message:'Article updated successfully'
        });
   }).catch((error)=>{
-      res.status(400).json({
+      res.json({
           error:error
       });
   })

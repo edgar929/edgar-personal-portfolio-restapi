@@ -7,7 +7,7 @@ exports.sendMessage = async(req,res)=>{
         await contact.save()
         res.status(200).send("message sent successful")
     } catch (error) {
-        res.status(400).send(error.message)
+        res.status(400).send({message:error.message})
     }
 }
 

@@ -4,6 +4,6 @@ const auth = require('../middleware/auth')
 const contactCtrl = require('../controller/Contact')
 
 router.post('/',contactCtrl.sendMessage)
-router.get('/',auth,contactCtrl.getMessages)
+router.get('/',contactCtrl.getMessages)
 
 module.exports = router

@@ -6,8 +6,8 @@ const auth = require('../middleware/auth')
 
 router.post('/',auth,multer,articleCtrl.postArticle);
 router.get('/',articleCtrl.getArticles)
-router.get('/:id', auth,articleCtrl.getArticle)
-router.patch('/:id',auth,multer, articleCtrl.updateArticle)
+router.get('/:id',auth,articleCtrl.getArticle)
+router.patch('/:id',multer, articleCtrl.updateArticle)
 router.delete('/:id',auth, articleCtrl.deleteArticle)
 
 module.exports = router;
