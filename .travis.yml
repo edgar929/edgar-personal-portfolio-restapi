@@ -3,7 +3,7 @@ node_js:
   - 'stable'
 install: npm install
 env:
-  - DATABASE_TEST=mongodb+srv://edgar:edgar@cluster0.jpzrn.mongodb.net/personalPortfolioTestWithMocha?retryWrites=true&w=majority
+  - db_test_url=mongodb+srv://edgar:edgar@cluster0.jpzrn.mongodb.net/personalPortfolioTestWithMocha?retryWrites=true&w=majority
 node_js:
   - "stable"
 services:
