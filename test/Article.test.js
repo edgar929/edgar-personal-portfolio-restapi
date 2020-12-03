@@ -8,9 +8,9 @@ let chaiHttp = require('chai-http');
 let app = require('../server');
 let should = chai.should();
 const jwt =  require("jsonwebtoken");
-const userId = "5fc756455daac005b8758cfb"
+let userId = "5fc756455daac005b8758cfb"
 
-let testId1="5fc693f39dd89f23e037d9fd";
+let testId1="";
 let testErrorID="ad"
 
 
@@ -25,13 +25,24 @@ const testuser= {
         token:jwt.sign({_id:userId}, process.env.JWT_SECRET)
     }]
 }
-const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmM3NTY0NTVkYWFjMDA1Yjg3NThjZmIiLCJpYXQiOjE2MDY4OTk0MzF9.34dsQyRKabrbtgkUHfCUszrROnhGlrc51iKA2ioYthE"
-
+// const testuser2= {
+//   email: "edgar@gmail.com",
+//   password: "test123",
+//   tokens:[{
+//       token:jwt.sign({_id:userId}, process.env.JWT_SECRET)
+//   }]
+// }
+const fakeUSer={
+  email:"dfad@gmil.com",
+  password:""
+}
+// const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmM3NTY0NTVkYWFjMDA1Yjg3NThjZmIiLCJpYXQiOjE2MDY4OTk0MzF9.34dsQyRKabrbtgkUHfCUszrROnhGlrc51iKA2ioYthE"
+let token ="";
 describe('user handling', () => {
 //   it('it should create user', () => {
 //     chai.request(app)
 //     .post("/api/user")
-//     .send(testuser)
+//     .send()
 //     .end((err,res)=>{
 //         res.should.have.status(200);
 //         res.body.should.have.property('message');
@@ -40,17 +51,32 @@ describe('user handling', () => {
 //     })
    
 // });
-    it('it should signin user', () => {
+it('should signin user',(done)=>{
+  chai.request(app)
+  .post("/api/user/login")
+  .send(testuser)
+  .end((err,res)=>{
+      res.should.have.status(200);
+      res.body.should.have.property('user');
+      res.body.should.have.property('token');
+      token = res.body.user.tokens[0].token;
+      userId = res.body.user._id;
+      done()
+  })
+})
+    it('only admin can login in', (done) => {
         chai.request(app)
         .post("/api/user/login")
-        .send(testuser)
+        .send(fakeUSer)
         .end((err,res)=>{
-            res.should.have.status(200);
-            res.body.should.have.property('user');
-            res.body.should.have.property('token');
+            res.should.have.status(404);
+            // res.body.should.have.property('user');
+            // res.body.should.have.property('token');
+            done()
         })
        
     });
+    
 })
 
 
@@ -83,6 +109,7 @@ describe('Articles handling', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('message');
             res.body.message.should.be.eql('article saved successful');
+            testId1 = res.body.data._id
             done()
         })
       });

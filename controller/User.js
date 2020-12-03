@@ -1,24 +1,24 @@
 const mongoose = require('mongoose')
 const User = require('../models/User')
 
-exports.createUser = async(req,res)=>{
-    const user = new User({
-        email:req.body.email,
-        password:req.body.password
-    })
-    try {
-       const data = await user.save()
-       const token = await user.generateAuthToken()
-       res.send({
-           message:"created successfully",
-           user: data,
-           token:token
-       })
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+// exports.createUser = async(req,res)=>{
+//     const user = new User({
+//         email:req.body.email,
+//         password:req.body.password
+//     })
+//     try {
+//        const data = await user.save()
+//        const token = await user.generateAuthToken()
+//        res.send({
+//            message:"created successfully",
+//            user: data,
+//            token:token
+//        })
+//     } catch (error) {
+//         res.status(400).send(error.message)
+//     }
 
-}
+// }
 
 exports.loginUser = async(req,res)=>{
    try {
@@ -27,7 +27,7 @@ exports.loginUser = async(req,res)=>{
 
        res.send({user, token})
    } catch (error) {
-       res.send(error.message)
+       res.status(404).send(error.message)
    }
 }
 
