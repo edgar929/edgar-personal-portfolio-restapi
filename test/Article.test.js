@@ -9,7 +9,7 @@ let app = require('../server');
 let should = chai.should();
 const jwt =  require("jsonwebtoken");
 let userId = "5fc756455daac005b8758cfb"
-
+require('dotenv').config()
 let testId1="";
 let testErrorID="ad"
 
@@ -20,7 +20,7 @@ chai.use(chaiHttp);
 
 const testuser= {
     email: "shumbushoedgar@gmail.com",
-    password: "test123",
+    password: "3111997se",
     tokens:[{
         token:jwt.sign({_id:userId}, process.env.JWT_SECRET)
     }]
