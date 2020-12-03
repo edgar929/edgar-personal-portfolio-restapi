@@ -54,7 +54,7 @@ describe('user handling', () => {
 it('should signin user',(done)=>{
   chai.request(app)
   .post("/api/user/login")
-  .send(testuser)
+  .send({email:testuser.email, password:testuser.password})
   .end((err,res)=>{
       res.should.have.status(200);
       // res.body.should.have.property('user');
