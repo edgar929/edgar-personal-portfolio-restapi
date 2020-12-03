@@ -5,11 +5,8 @@ env:
   - db_test_url=mongodb+srv://edgar:edgar@cluster0.jpzrn.mongodb.net/personalPortfolioTestWithMocha?retryWrites=true&w=majority
 node_js:
   - "stable"
-services:
-  - mongodb
-cache:
-  npm: true
+
 script:
   - npm run test
 after_success:
-  - npm run coveralls
+  - npm run coverage
