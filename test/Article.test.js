@@ -17,10 +17,10 @@ let testErrorID="ad"
 chai.use(chaiHttp);
 chai.should();
 chai.use(chaiHttp);
-
+let loggedUser={};
 const testuser= {
     email: "shumbushoedgar@gmail.com",
-    password: "3111997se",
+    password: "test123",
     tokens:[{
         token:jwt.sign({_id:userId}, process.env.JWT_SECRET)
     }]
@@ -61,6 +61,29 @@ it('should signin user',(done)=>{
       // res.body.should.have.property('token');
       token = res.body.user.tokens[0].token;
       userId = res.body.user._id;
+      loggedUser = res.body.user
+      done()
+  })
+})
+it('should not signin user without email',(done)=>{
+  chai.request(app)
+  .post("/api/user/login")
+  .send({email:testuser.email, password:123})
+  .end((err,res)=>{
+      res.should.have.status(404);
+      res.body.should.have.property('error');
+      // res.body.should.have.property('token');
+      
+      done()
+  })
+})
+it('should get user',(done)=>{
+  chai.request(app)
+  .get("/api/user/me")
+  .set('Authorization',token)
+  .send()
+  .end((err,res)=>{
+      res.should.have.status(200);
       done()
   })
 })
@@ -202,4 +225,26 @@ describe('Articles handling', () => {
             done();
         });
     });
+    it('should logout user',(done)=>{
+      chai.request(app)
+      .post("/api/user/logout")
+      .set('Authorization',token)
+      .send(loggedUser)
+      .end((err,res)=>{
+          res.should.have.status(200);
+          res.body.should.have.property('message');
+          done()
+      })
+    })
+    it('should not logout unauthenticated user',(done)=>{
+      chai.request(app)
+      .post("/api/user/logout")
+      .set('Authorization',token)
+      .send(loggedUser)
+      .end((err,res)=>{
+          res.should.have.status(401);
+          // res.body.should.have.property('message');
+          done()
+      })
+    })
 })

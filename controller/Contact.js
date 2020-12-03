@@ -12,10 +12,10 @@ exports.sendMessage = async(req,res)=>{
 }
 
 exports.getMessages = async(req,res)=>{
-    try {
+    // try {
         const messages = await Contact.find({})
         res.send(messages)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+    // } catch (error) {
+    //     res.status(400).send(error.message)
+    // }
 }

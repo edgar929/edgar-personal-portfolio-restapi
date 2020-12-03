@@ -9,11 +9,11 @@ const userSchema = new mongoose.Schema({
         required:true,
 		unique: true,
 		lowercase: true,
-		validate(value) {
-			if (!validator.isEmail(value)) {
-				throw new Error('Email is invalid')
-			}
-		}
+		// validate(value) {
+		// 	if (!validator.isEmail(value)) {
+		// 		throw new Error('Email is invalid')
+		// 	}
+		// }
     },
     password:{
         type:String,
@@ -40,12 +40,12 @@ userSchema.statics.findByCredentials = async(email,password)=>{
     const user = await User.findOne({email})
    
      if(!user){
-         throw new Error('unable to login')
+         throw new Error()
      }
      const isMatch = await bcrypt.compare(password,user.password)
-     if(!isMatch){
-         throw new Error("unable to login")
-     }
+    //  if(!isMatch){
+    //      throw new Error({error:'wrong password'})
+    //  }
      return user
 }
 

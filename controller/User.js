@@ -27,21 +27,22 @@ exports.loginUser = async(req,res)=>{
 
        res.send({user, token})
    } catch (error) {
-       res.status(404).send(error.message)
+       res.status(404).send({error:"invalid Email or password"})
    }
 }
 
 exports.getUSer = async(req,res)=>{
       res.send(req.user)
 }
+
 exports.logout = async(req,res)=>{
-    try {
+    // try {
         req.user.tokens = req.user.tokens.filter((token)=>{
             return token.token !== req.token
         })
         await req.user.save()
-        res.send()
-    } catch (error) {
-        res.status(500).send()
-    }
+        res.send({message:'logged out'})
+    // } catch (error) {
+    //     res.status(401).send()
+    // }
 }
