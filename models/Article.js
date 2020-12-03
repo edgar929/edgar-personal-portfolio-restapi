@@ -15,10 +15,10 @@ const articles = new mongoose.Schema({
     content:{
         type:String
     },
-    owner:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:false
-    }
+    // owner:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     required:false
+    // }
       
 },
 {
