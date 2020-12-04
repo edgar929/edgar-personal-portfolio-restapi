@@ -4,7 +4,7 @@ const multer = require('../config/multerConfig')
 const articleCtrl = require('../controller/Article')
 const auth = require('../middleware/auth')
 
-router.post('/',auth,multer,articleCtrl.postArticle);
+router.post('/add',auth,multer,articleCtrl.postArticle);
 router.get('/',articleCtrl.getArticles)
 router.get('/:id',auth,articleCtrl.getArticle)
 router.patch('/:id',multer, articleCtrl.updateArticle)
