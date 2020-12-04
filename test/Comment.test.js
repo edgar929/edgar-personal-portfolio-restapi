@@ -25,6 +25,16 @@ describe('COMMENT API TEST', () => {
                 })
                 
             });
+            it('it should not send a comment without comment message', (done) => {
+                const res = chai.request(app)
+                .post('/api/comments/'+testId1)
+                .send({fullName:"edgar"})
+                .end((err,res)=>{
+                    res.should.have.status(400)
+                    done()
+                })
+                
+            });
          
             // Get all comments
             it('it should GET all the comments', (done) => {

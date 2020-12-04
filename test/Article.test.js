@@ -25,18 +25,12 @@ const testuser= {
         token:jwt.sign({_id:userId}, process.env.JWT_SECRET)
     }]
 }
-// const testuser2= {
-//   email: "edgar@gmail.com",
-//   password: "test123",
-//   tokens:[{
-//       token:jwt.sign({_id:userId}, process.env.JWT_SECRET)
-//   }]
-// }
+
 const fakeUSer={
   email:"dfad@gmil.com",
   password:""
 }
-// const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmM3NTY0NTVkYWFjMDA1Yjg3NThjZmIiLCJpYXQiOjE2MDY4OTk0MzF9.34dsQyRKabrbtgkUHfCUszrROnhGlrc51iKA2ioYthE"
+
 let token ="";
 describe('user handling', () => {
 //   it('it should create user', () => {
@@ -57,8 +51,6 @@ it('should signin user',(done)=>{
   .send({email:testuser.email, password:testuser.password})
   .end((err,res)=>{
       res.should.have.status(200);
-      // res.body.should.have.property('user');
-      // res.body.should.have.property('token');
       token = res.body.user.tokens[0].token;
       userId = res.body.user._id;
       loggedUser = res.body.user
@@ -72,7 +64,6 @@ it('should not signin user without email',(done)=>{
   .end((err,res)=>{
       res.should.have.status(404);
       res.body.should.have.property('error');
-      // res.body.should.have.property('token');
       
       done()
   })
@@ -93,8 +84,6 @@ it('should get user',(done)=>{
         .send(fakeUSer)
         .end((err,res)=>{
             res.should.have.status(404);
-            // res.body.should.have.property('user');
-            // res.body.should.have.property('token');
             done()
         })
        
@@ -111,7 +100,6 @@ describe('Articles handling', () => {
     .get('/api/articles')
     .end((err, res) => {
           res.should.have.status(200);
-          // res.body.should.be.a('array');
       done();
     });
   });
@@ -119,7 +107,7 @@ describe('Articles handling', () => {
 
       it('it should POST an Article with all properties ', (done) => {
         chai.request(app)
-        .post('/api/articles')
+        .post('/api/articles/add')
         .set('Authorization',token)
         .set('content-type','multipart/form-data')
         .field('title','the lord of the Rings')
@@ -139,7 +127,7 @@ describe('Articles handling', () => {
       
       it('it should not POST an Article without all properties ', (done) => {
         chai.request(app)
-        .post('/api/articles')
+        .post('/api/articles/add')
         .set('Authorization',token)
         .set('content-type','multipart/form-data')
         .field('summary','this is my first testing sumary')

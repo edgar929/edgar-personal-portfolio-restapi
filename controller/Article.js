@@ -35,7 +35,6 @@ exports.getArticles=async(req,res,next)=>{
 exports.getArticle=async(req,res,next)=>{
     const _id = req.params.id
     try {
-        // const article = await Article.findOne({_id,owner:req.user._id})
         const article = await Article.findOne({_id})
         const artCom = await Comments.find({Article:req.params.id})
         let comments = [];
@@ -58,7 +57,7 @@ exports.getArticle=async(req,res,next)=>{
 }
 exports.deleteArticle = async(req,res)=>{
     try {
-        // const article =await Article.findOne({_id:req.params.id, owner:req.user._id})
+        
         const article =await Article.findOne({_id:req.params.id})
     //     if(!article){
     //        res.send('blog not found')
