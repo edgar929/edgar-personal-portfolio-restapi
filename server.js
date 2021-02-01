@@ -5,6 +5,12 @@ const app = express();
 const dbConnection = require('./Db/dbConnection.js')
 
 dbConnection();
+app.use(function (res, req, next) {
+    req.header("Access-control-Allow-Origin", "*");
+    req.header("Access-control-Allow-Headers", "Origin,x-Requested-with, Content-Type, Accept");
+    req.header('Access-control-Allow-Methods', 'PUT','POST','GET','DELETE', 'OPTIONS');
+    next();
+})
 app.use(express.json({extended: false}));
 app.use('/api', routes);
 app.use(bodyParser.json());
